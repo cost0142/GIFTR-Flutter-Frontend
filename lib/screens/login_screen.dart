@@ -30,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Form(
               key: _formKey,
+              //  ---------------------------------------------------------- Email / PAssword -------------------------------------
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -40,8 +41,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ElevatedButton(
-                          child: Text('Login'),
+                          // ******************************************************************************  Onpressed Function +++++++++"Log In"++++++++++++++++
+                        ElevatedButton.icon(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               //validation has been passed so we can save the form
@@ -57,16 +58,21 @@ class _LoginScreenState extends State<LoginScreen> {
                               return;
                             }
                           },
+                          icon: Icon(Icons.arrow_forward),
+                          label: Text('Log In'),
                         ),
+                        // ************************************************************************************  Onpressed Function ++++++++"Log In"++++++++++++++++++++
                         SizedBox(width: 16.0),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             primary: Colors.purple,
                           ),
                           child: Text('Sign Up'),
+                          // ******************************************************************************  Onpressed Function +++++++"Sign Up"+++++++++++++++++++++
                           onPressed: () {
                             //validate then call the API to signup
                           },
+                           // ******************************************************************************  Onpressed Function +++++++"Sign Up"+++++++++++++++++++++
                         ),
                       ],
                     ),
@@ -80,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return InputDecoration(
       labelText: label, // label
       labelStyle: TextStyle(color: Colors.black),
-      hintText: hint, //placeholder
+      // hintText: hint, //placeholder
       border: OutlineInputBorder(),
     );
   }
