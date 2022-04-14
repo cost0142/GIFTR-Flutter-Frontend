@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:async';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class HttpHelper {
   final String domain = 'http://localhost:3030';
   String? uid = null;
