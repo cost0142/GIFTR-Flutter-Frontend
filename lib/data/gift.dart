@@ -2,7 +2,10 @@ class Gift {
   String id = "";
   String name = "";
   double price = 0.0;
-  String? store = '';
+  Map<String, String> store = {
+    'name': '',
+    'productURL': '',
+  };
   String? url = '';
 
   Gift({
@@ -13,7 +16,7 @@ class Gift {
     required this.url,
   });
 
-  Gift.dromJSON(Map<String, dynamic> userMap) {
+  Gift.fromJSON(Map<String, dynamic> userMap) {
     id = userMap['id'];
     name = userMap['name'];
     price = userMap['price'];
