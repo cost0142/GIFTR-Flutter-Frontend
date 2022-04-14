@@ -1,23 +1,26 @@
 class Person {
-  String id = '';
-  String name = '';
-  DateTime birthDate = DateTime.now();
+  String fullName = "";
+  String birthDate = "";
+  String owner = "";
+  List<String> shareWith = [];
   List<Map> gifts = [];
-  String owner = '';
+  String image = "";
 
   Person({
-    required this.id,
-    required this.name,
+    required this.fullName,
     required this.birthDate,
     required this.owner,
+    required this.shareWith,
     required this.gifts,
+    required this.image,
   });
 
-  Person.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    birthDate = DateTime.parse(json['birthDate']);
-    gifts = json['gifts'];
-    owner = json['owner'];
+  Person.fromJson(Map<String, dynamic> userMap) {
+    this.fullName = userMap['fullName'];
+    this.birthDate = userMap['birthDate'];
+    this.owner = userMap['owner'];
+    this.shareWith = userMap['shareWith'];
+    this.gifts = userMap['gifts'];
+    this.image = userMap['image'];
   }
 }
