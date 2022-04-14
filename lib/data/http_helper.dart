@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'dart:async';
-import 'package:http/http.dart' as http;
+import 'dart:async'; //for Future
+import 'package:http/http.dart' as http; //our fetch call here
 import 'package:shared_preferences/shared_preferences.dart';
+import './user.dart';
 
+//HttpHelper class
 class HttpHelper {
   final String domain = '';
   String? uid = null;
@@ -25,7 +27,7 @@ class HttpHelper {
   }
 
   //update token
-  void updateToken() async {
+  void updateToken(token) async {
     preferences = preferences ?? await SharedPreferences.getInstance();
     await preferences.setString('token', token);
     headers.update('Authorization', (value) => 'Bearer $token');
@@ -36,19 +38,56 @@ class HttpHelper {
     String endpoint = 'auth/tokens';
     Uri uri = Uri.http(domain, endpoint);
 
-    //body Req.
+    //body Request
     Map<String, String> body = {
       'email': email,
       'password': password,
     };
 
-    // POST Req.
+    // POST Request
     http.Response response = await http.post(uri, body: body);
     Map<String, dynamic> resp = jsonDecode(response.body);
     if (resp['data'] != null) {
-      String _token = resp['data']['token'];
-      updateToken(_token);
-      return _token;
+      String token = resp['data']['token'];
+      updateToken(token);
+      return token;
+    } else {
+      String msg = '${resp['errors'][0]['code']} ${resp['errors'][0]['title']}';
+      throw Exception(msg);
+    }
+  }
+
+  //register user
+  Future<User> signUp(
+      String firstName, String lastName, String email, String password) async {
+    String endpoint = 'auth/users';
+    Uri uri = Uri.https(domain, endpoint);
+    Map<String, dynamic> body = {
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email,
+      'password': password,
+    };
+
+    // print(headers);
+    // print(body);
+
+    http.Response response = await http.post(uri, body: body);
+    Map<String, dynamic> resp = jsonDecode(response.body);
+
+    // print(resp);
+
+    // return User(
+    //   firstName: firstName,
+    //   lastName: lastName,
+    //   email: email,
+    //   password: password,
+    // )
+
+    if (resp['data'] != null) {
+      User user = User.fromJSON(resp['data']);
+      // uid = user.id;
+      return user;
     } else {
       String msg = '${resp['errors'][0]['code']} ${resp['errors'][0]['title']}';
       throw Exception(msg);
