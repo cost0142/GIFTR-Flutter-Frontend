@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                          // ******************************************************************************  Onpressed Function +++++++++"Log In"++++++++++++++++
+                        // ******************************************************************************  Onpressed Function +++++++++"Log In"++++++++++++++++
                         ElevatedButton.icon(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () {
                             //validate then call the API to signup
                           },
-                           // ******************************************************************************  Onpressed Function +++++++"Sign Up"+++++++++++++++++++++
+                          // ******************************************************************************  Onpressed Function +++++++"Sign Up"+++++++++++++++++++++
                         ),
                       ],
                     ),
