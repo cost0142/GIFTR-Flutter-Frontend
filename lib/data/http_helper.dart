@@ -93,4 +93,31 @@ class HttpHelper {
       throw Exception(msg);
     }
   }
+
+//  --------------------------------------------------------------------------------
+// function formatResponseData(payload, type = 'users') {
+//     if (payload instanceof Array) {
+//         return {data: payload.map(resource => format(resource))}
+//     } else {
+//         return {data: format(payload)}
+//     }
+//     function format(resource) {
+//         const {_id, ...attributes} = resource.toJSON ? resource.toJSON() : resource;
+//         return {type, id: _id, attributes};
+//     }
+// }
+
+// dynamic formatRequest(Map<String,
+// dynamic> apiData, String type) {
+//     Map<String, dynamic> objToSend = {
+//       "data": {
+//         "type": type,
+//         "attributes": apiData
+//       }
+//     };
+//     // print(jsonEncode(objToSend));
+//     return jsonEncode(objToSend);
+//   }
+//  -----------------------------------------------------------------------------
+
 }
