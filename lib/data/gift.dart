@@ -8,6 +8,7 @@ class Gift {
   };
   String? url = '';
 
+//constructor
   Gift({
     required this.id,
     required this.name,
@@ -16,6 +17,7 @@ class Gift {
     required this.url,
   });
 
+  //the fromJson constructor method that will convert from userMap to our User object.
   Gift.fromJSON(Map<String, dynamic> userMap) {
     id = userMap['id'];
     name = userMap['name'];
