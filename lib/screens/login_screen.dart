@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               print(user);
                               String string = await httpAPI.Login(
                                   user['email'], user['password']);
-
+                              
                               if (string != null) widget.nav();
                               //triggers the onSave in each form field
                               //call the API function to post the data
