@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../data/http_helper.dart';
 
 enum Screen { LOGIN, PEOPLE, GIFTS, ADDGIFT, ADDPERSON }
 
@@ -13,10 +14,13 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  HttpHelper httpAPI = HttpHelper();
+
   //create global ref key for the form
   final _formKey = GlobalKey<FormState>();
   //state value for user login
-  Map<String, dynamic> user = {'email': '', 'pass': ''};
+  Map<String, dynamic> user = {'email': '', 'password': ''};
 
   @override
   Widget build(BuildContext context) {
@@ -41,18 +45,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                          // ******************************************************************************  Onpressed Function +++++++++"Log In"++++++++++++++++
+                        // ******************************************************************************  Onpressed Function +++++++++"Log In"++++++++++++++++
                         ElevatedButton.icon(
-                          onPressed: () {
+                          onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               //validation has been passed so we can save the form
                               _formKey.currentState!.save();
+                              print(user);
+                              String string = await httpAPI.Login(
+                                  user['email'], user['password']);
+
+                              if (string != null) widget.nav();
                               //triggers the onSave in each form field
                               //call the API function to post the data
                               //accept the response from the server and
                               //save the token in SharedPreferences
                               //go to the people screen
-                              widget.nav();
                             } else {
                               //form failed validation so exit
                               return;
@@ -70,9 +78,25 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Text('Sign Up'),
                           // ******************************************************************************  Onpressed Function +++++++"Sign Up"+++++++++++++++++++++
                           onPressed: () {
-                            //validate then call the API to signup
+                            if (_formKey.currentState!.validate()) {
+                              //validation has been passed so we can save the form
+                              _formKey.currentState!.save();
+                              print(user);
+                              httpAPI.signUp('jasper', 'sun', user['email'],
+                                  user['password']);
+                              print('Sign Up');
+                              //triggers the onSave in each form field
+                              //call the API function to post the data
+                              //accept the response from the server and
+                              //save the token in SharedPreferences
+                              //go to the people screen
+                              widget.nav();
+                            } else {
+                              //form failed validation so exit
+                              return;
+                            }
                           },
-                           // ******************************************************************************  Onpressed Function +++++++"Sign Up"+++++++++++++++++++++
+                          // ******************************************************************************  Onpressed Function +++++++"Sign Up"+++++++++++++++++++++
                         ),
                       ],
                     ),
