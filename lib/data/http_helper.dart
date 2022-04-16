@@ -17,6 +17,7 @@ class HttpHelper {
   Map<String, String> headers = {
     'Content-Type': 'application/json; charset=UTF-8',
     'x-api-key': 'JiaqianHygor',
+    'Authorization': '',
   };
 
   HttpHelper({this.uid, this.token});
@@ -65,7 +66,7 @@ class HttpHelper {
     preferences = preferences ?? await SharedPreferences.getInstance();
     token = token;
     await preferences.setString('token', token);
-    headers.update('Authorization', (value) => 'Bearer $token');
+    headers['Authorization'] = 'Bearer $token';
   }
 
   //register user
@@ -106,15 +107,17 @@ class HttpHelper {
       'password': password,
     };
 
-    http.Response response = await http.post(uri, body: body);
+    http.Response response =
+        await makeRequest('post', uri, headers, formatRequest(body, "tokens"));
+
     Map<String, dynamic> resp = jsonDecode(response.body);
+
     if (resp['data'] != null) {
       String token = resp['data']['token'];
       updateToken(token);
       return token;
     } else {
-      String msg = '${resp['errors'][0]['code']} ${resp['errors'][0]['title']}';
-      throw Exception(msg);
+      throw Exception('Failed to login');
     }
   }
 
