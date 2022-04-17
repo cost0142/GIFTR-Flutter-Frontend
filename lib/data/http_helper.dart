@@ -97,6 +97,7 @@ class HttpHelper {
 
   //login user
   Future<String> Login(String email, String password) async {
+    // preferences = preferences ?? await SharedPreferences.getInstance();
     //token
     String endpoint = 'auth/tokens';
     Uri uri = Uri.http(domain, endpoint);
@@ -111,7 +112,9 @@ class HttpHelper {
         await makeRequest('post', uri, headers, formatRequest(body, "tokens"));
 
     Map<String, dynamic> resp = jsonDecode(response.body);
-
+    print(resp);
+    headers["Authorization"] = 'Bearer ${resp['data']['token']}';
+    print(headers);
     if (resp['data'] != null) {
       String token = resp['data']['token'];
       updateToken(token);
@@ -122,19 +125,55 @@ class HttpHelper {
   }
 
   //get user
-  Future<Map> getUsers(String email, String password) async {
-    //token
-    String endpoint = 'auth/users';
+  Future<Map> getUsers() async {
+    String endpoint = 'auth/users/me';
     Uri uri = Uri.http(domain, endpoint);
 
     http.Response response = await http.get(uri, headers: headers);
 
     Map<String, dynamic> resp = jsonDecode(response.body);
-
+    print(resp);
     return resp;
   }
 
-  dynamic formatRequest(Map<String, dynamic> body, String type) {
+  //get people
+  Future<List> getPeople() async {
+    String endpoint = 'api/people';
+    Uri uri = Uri.http(domain, endpoint);
+    print(uri);
+
+    print(headers);
+
+    //get request
+    preferences = preferences ?? await SharedPreferences.getInstance();
+
+    String? token = await preferences.getString('token');
+
+    headers['Authorization'] = 'Bearer $token';
+
+    http.Response response = await http.get(uri, headers: headers);
+
+    Map<String, dynamic> resp = jsonDecode(response.body);
+
+    if (resp['data'] != 'null') {
+      print(resp);
+      List<Person> people = resp['data'].map<Person>((element) {
+        Person person = Person.fromJSON(element['attributes']);
+        return person;
+      }).toList();
+      print(people);
+      return people;
+    } else {
+      String msg = '${resp['errors'][0]['code']} ${resp['errors'][0]['title']}';
+      throw Exception(msg);
+    }
+  }
+
+  dynamic formatRequest(Map<dynamic, dynamic> body, String type) {
+    if (body['birthDate'] != null) {
+      body['birthDate'] = body['birthDate'].toString();
+    }
+
     Map<String, dynamic> objToSend = {
       "data": {"type": type, "attributes": body}
     };
