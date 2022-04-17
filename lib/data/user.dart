@@ -1,19 +1,21 @@
 class User {
-  String firstname = '';
-  String lastname = '';
+  String firstName = '';
+  String lastName = '';
   String email = '';
   String password = '';
 
+//constructor
   User({
-    required this.firstname,
-    required this.lastname,
+    required this.firstName,
+    required this.lastName,
     required this.email,
     required this.password,
   });
 
+  //the fromJson constructor method that will convert from userMap to our User object.
   User.fromJSON(Map<String, dynamic> userMap) {
-    firstname = userMap['firstname'];
-    lastname = userMap['lastname'];
+    firstName = userMap['firstName'];
+    lastName = userMap['lastName'];
     email = userMap['email'];
     password = userMap['password'];
   }

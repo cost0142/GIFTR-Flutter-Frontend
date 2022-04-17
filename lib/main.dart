@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_multi_screen/screens/add_person_screen.dart';
+
 //screens
 import '../screens/login_screen.dart';
 import '../screens/people_screen.dart';
 import '../screens/gifts_screen.dart';
 import '../screens/add_person_screen.dart';
 import '../screens/add_gift_screen.dart';
+
 //data and api classes
+import 'package:shared_preferences/shared_preferences.dart';
+import '../data/http_helper.dart';
+
+import '../data/user.dart';
+import '../data/person.dart';
+import '../data/gift.dart';
 
 enum Screen { LOGIN, PEOPLE, GIFTS, ADDGIFT, ADDPERSON }
 

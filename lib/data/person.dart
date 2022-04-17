@@ -6,6 +6,7 @@ class Person {
   List<Map> gifts = [];
   String image = "";
 
+//constructor
   Person({
     required this.fullName,
     required this.birthDate,
@@ -15,6 +16,7 @@ class Person {
     required this.image,
   });
 
+  //the fromJson constructor method that will convert from userMap to our User object.
   Person.fromJson(Map<String, dynamic> userMap) {
     this.fullName = userMap['fullName'];
     this.birthDate = userMap['birthDate'];
