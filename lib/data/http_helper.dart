@@ -117,7 +117,7 @@ class HttpHelper {
       updateToken(token);
       return token;
     } else {
-      throw Exception('Failed to login');
+      throw Exception('Failed to login, Invalid email or password');
     }
   }
 
