@@ -23,21 +23,20 @@ class PeopleScreen extends StatefulWidget {
 class _PeopleScreenState extends State<PeopleScreen> {
   HttpHelper httpAPI = HttpHelper();
 
-@override
-void initState() {
+  @override
+  void initState() {
     super.initState();
     getPeople();
   }
+
   //state var list of people
   //real app will be using the API to get the data
   List<dynamic> people = [];
- 
+
   void getPeople() async {
-  List<dynamic> peopleData = await httpAPI.getPeople();
+    List<dynamic> peopleData = await httpAPI.getPeople();
     setState(() => {people = peopleData});
   }
-
-  
 
   DateTime today = DateTime.now();
 
@@ -78,6 +77,7 @@ void initState() {
                 IconButton(
                   icon: Icon(Icons.edit, color: Colors.grey),
                   onPressed: () {
+                    
                     print('edit person $index');
                     print('go to the add_person_screen');
                     print(people[index].birthDate);

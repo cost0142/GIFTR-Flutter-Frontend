@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:async'; //for Future
@@ -168,6 +170,36 @@ class HttpHelper {
       throw Exception(msg);
     }
   }
+
+//edit person -- PATCH 
+  void editPerson(
+    String id,
+    String fullName,
+    DateTime birthDate,
+  ) async {
+    String endpoint = 'api/people/${id}';
+    Uri uri = Uri.http(domain, endpoint);
+
+    Map<String, dynamic> body = {
+      'fullName': fullName,
+      'birthDate': birthDate.toString(),
+    };
+    print(body);
+
+    preferences = preferences ?? await SharedPreferences.getInstance();
+    String? token = await preferences.getString('token');
+    headers['Authorization'] = 'Bearer $token';
+
+    http.Response response =
+        await makeRequest('patch', uri, headers, formatRequest(body, 'person'));
+
+    Map<String, dynamic> resp = jsonDecode(response.body);
+    print(resp);
+  }
+
+// -------------------- POST/
+
+// -------------------- DELETE PEOPLE
 
   dynamic formatRequest(Map<dynamic, dynamic> body, String type) {
     if (body['birthDate'] != null) {
