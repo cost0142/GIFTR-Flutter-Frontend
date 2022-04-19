@@ -78,8 +78,14 @@ class _AddPersonScreenState extends State<AddPersonScreen> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
-                        httpAPI.editPerson(widget.currentPerson, person['name'],
-                            person['dob']);
+                        if (widget.currentPersonName.isEmpty) {
+                          //add person
+                          httpAPI.addPerson(person['name'], person['dob']);
+                        } else {
+                          //edit person
+                          httpAPI.editPerson(widget.currentPerson,
+                              person['name'], person['dob']);
+                        }
                       }
 
                       //use the API to save the new person

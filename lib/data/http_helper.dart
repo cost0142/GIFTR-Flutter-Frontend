@@ -104,7 +104,6 @@ class HttpHelper {
     String endpoint = 'auth/tokens';
     Uri uri = Uri.http(domain, endpoint);
 
-
     //body Request email & password
     Map<String, String> body = {
       'email': email,
@@ -117,9 +116,8 @@ class HttpHelper {
     Map<String, dynamic> resp = jsonDecode(response.body);
     preferences = preferences ?? await SharedPreferences.getInstance();
 
-    print(resp);
     headers["Authorization"] = 'Bearer ${resp['data']['token']}';
-    print(headers);
+
     if (resp['data'] != null) {
       String token = resp['data']['token'];
       await preferences.setString('token', token);
@@ -138,7 +136,7 @@ class HttpHelper {
     http.Response response = await http.get(uri, headers: headers);
 
     Map<String, dynamic> resp = jsonDecode(response.body);
-    print(resp);
+
     return resp;
   }
 
@@ -146,9 +144,6 @@ class HttpHelper {
   Future<List> getPeople() async {
     String endpoint = 'api/people';
     Uri uri = Uri.http(domain, endpoint);
-    print(uri);
-
-    print(headers);
 
     //get request
     preferences = preferences ?? await SharedPreferences.getInstance();
@@ -159,14 +154,13 @@ class HttpHelper {
 
     Map<String, dynamic> resp = jsonDecode(response.body);
 
-    if (resp['data'] != 'null') {
-      print(resp);
+    if (resp['data'] != null) {
+      print('benenenenenenenenenenenen${resp['data']}');
       List<Person> people = resp['data'].map<Person>((element) {
         Person person = Person.fromJSON(element['attributes']);
         person.id = element['id'];
         return person;
       }).toList();
-      print(people);
       return people;
     } else {
       String msg = '${resp['errors'][0]['code']} ${resp['errors'][0]['title']}';
@@ -180,7 +174,7 @@ class HttpHelper {
     String fullName,
     String birthDate,
   ) async {
-    String endpoint = 'api/people/${id}';
+    String endpoint = 'api/people/$id';
     Uri uri = Uri.http(domain, endpoint);
 
     Map<String, dynamic> body = {
@@ -188,19 +182,37 @@ class HttpHelper {
       'birthDate': birthDate.toString(),
     };
 
-    print('niceeeeee bodddydydydydydydydydydydy $body');
     preferences = preferences ?? await SharedPreferences.getInstance();
     String? token = await preferences.getString('token');
     headers['Authorization'] = 'Bearer $token';
 
-    print('niceeeeeeeee headers $headers');
     http.Response response =
         await makeRequest('patch', uri, headers, formatRequest(body, 'person'));
     Map<String, dynamic> resp = jsonDecode(response.body);
-  print('niceeeee response $resp');
   }
 
-// -------------------- POST/
+// edit person POST/
+  void addPerson(
+    String fullName,
+    String birthDate,
+  ) async {
+    String endpoint = 'api/people/';
+    Uri uri = Uri.http(domain, endpoint);
+
+    Map<String, dynamic> body = {
+      'fullName': fullName,
+      'birthDate': birthDate.toString(),
+    };
+
+    preferences = preferences ?? await SharedPreferences.getInstance();
+    String? token = await preferences.getString('token');
+    print(token);
+    headers['Authorization'] = 'Bearer $token';
+
+    http.Response response =
+        await makeRequest('post', uri, headers, formatRequest(body, 'person'));
+    Map<String, dynamic> resp = jsonDecode(response.body);
+  }
 
 // -------------------- DELETE PEOPLE
 
