@@ -15,7 +15,7 @@ class AddPersonScreen extends StatefulWidget {
 
   Function nav;
   String currentPersonName; // could be empty string
-  int currentPerson; //could be zero
+  String currentPerson; //could be zero
   DateTime personDOB;
 
   @override
@@ -77,17 +77,17 @@ class _AddPersonScreenState extends State<AddPersonScreen> {
                   },
                 ),
                 SizedBox(width: 16.0),
-                if (widget.currentPerson > 0)
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.red,
-                    ),
-                    child: Text('Delete'),
-                    onPressed: () {
-                      //delete the selected person
-                      //needs confirmation dialog
-                    },
-                  ),
+                // if (widget.currentPerson > 0)
+                //   ElevatedButton(
+                //     style: ElevatedButton.styleFrom(
+                //       primary: Colors.red,
+                //     ),
+                //     child: Text('Delete'),
+                //     onPressed: () {
+                //       //delete the selected person
+                //       //needs confirmation dialog
+                //     },
+                //   ),
               ],
             ),
           ]),

@@ -12,8 +12,8 @@ class PeopleScreen extends StatefulWidget {
       required this.goEdit})
       : super(key: key);
 
-  Function(int, String) goGifts;
-  Function(int, String, DateTime) goEdit;
+  Function(String, String) goGifts;
+  Function(String, String, DateTime) goEdit;
   Function(Enum) logout;
 
   @override
@@ -80,7 +80,7 @@ class _PeopleScreenState extends State<PeopleScreen> {
                     
                     print('edit person $index');
                     print('go to the add_person_screen');
-                    print(people[index].birthDate);
+                    print(people[index].id);
                     widget.goEdit(people[index].id, people[index].fullName,
                         people[index].birthDate);
                   },
@@ -103,7 +103,7 @@ class _PeopleScreenState extends State<PeopleScreen> {
         onPressed: () {
           //go to the add gift page
           DateTime now = DateTime.now();
-          widget.goEdit(0, '', now);
+          widget.goEdit('', '', now);
         },
       ),
     );

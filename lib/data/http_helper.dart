@@ -161,6 +161,7 @@ class HttpHelper {
       print(resp);
       List<Person> people = resp['data'].map<Person>((element) {
         Person person = Person.fromJSON(element['attributes']);
+        person.id = element['id'];
         return person;
       }).toList();
       print(people);
