@@ -77,7 +77,6 @@ class _PeopleScreenState extends State<PeopleScreen> {
                 IconButton(
                   icon: Icon(Icons.edit, color: Colors.grey),
                   onPressed: () {
-                    
                     print('edit person $index');
                     print('go to the add_person_screen');
                     print(people[index].id);

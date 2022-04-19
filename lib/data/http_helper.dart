@@ -104,6 +104,7 @@ class HttpHelper {
     String endpoint = 'auth/tokens';
     Uri uri = Uri.http(domain, endpoint);
 
+
     //body Request email & password
     Map<String, String> body = {
       'email': email,
@@ -114,11 +115,14 @@ class HttpHelper {
         await makeRequest('post', uri, headers, formatRequest(body, "tokens"));
 
     Map<String, dynamic> resp = jsonDecode(response.body);
+    preferences = preferences ?? await SharedPreferences.getInstance();
+
     print(resp);
     headers["Authorization"] = 'Bearer ${resp['data']['token']}';
     print(headers);
     if (resp['data'] != null) {
       String token = resp['data']['token'];
+      await preferences.setString('token', token);
       updateToken(token);
       return token;
     } else {
@@ -148,9 +152,7 @@ class HttpHelper {
 
     //get request
     preferences = preferences ?? await SharedPreferences.getInstance();
-
     String? token = await preferences.getString('token');
-
     headers['Authorization'] = 'Bearer $token';
 
     http.Response response = await http.get(uri, headers: headers);
@@ -172,11 +174,11 @@ class HttpHelper {
     }
   }
 
-//edit person -- PATCH 
+//edit person -- PATCH
   void editPerson(
     String id,
     String fullName,
-    DateTime birthDate,
+    String birthDate,
   ) async {
     String endpoint = 'api/people/${id}';
     Uri uri = Uri.http(domain, endpoint);
@@ -185,17 +187,17 @@ class HttpHelper {
       'fullName': fullName,
       'birthDate': birthDate.toString(),
     };
-    print(body);
 
+    print('niceeeeee bodddydydydydydydydydydydy $body');
     preferences = preferences ?? await SharedPreferences.getInstance();
     String? token = await preferences.getString('token');
     headers['Authorization'] = 'Bearer $token';
 
+    print('niceeeeeeeee headers $headers');
     http.Response response =
         await makeRequest('patch', uri, headers, formatRequest(body, 'person'));
-
     Map<String, dynamic> resp = jsonDecode(response.body);
-    print(resp);
+  print('niceeeee response $resp');
   }
 
 // -------------------- POST/
