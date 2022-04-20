@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_screen/screens/add_person_screen.dart';
 import '../data/http_helper.dart';
 
 enum Screen { LOGIN, PEOPLE, GIFTS, ADDGIFT, ADDPERSON }
@@ -26,7 +27,14 @@ class _AddGiftScreenState extends State<AddGiftScreen> {
   //create global ref key for the form
   final _formKey = GlobalKey<FormState>();
   //state value for user login
-  Map<String, dynamic> gift = {'name': '', 'store': '', 'price': 0.00};
+  Map<String, dynamic> gift = {
+    'name': '',
+    'store': {
+      'storeName': '',
+      'storeUrl': '',
+    },
+    'price': 0.00
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -45,25 +53,37 @@ class _AddGiftScreenState extends State<AddGiftScreen> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildName(),
-              SizedBox(height: 16),
-              _buildStore(),
-              SizedBox(height: 16),
-              _buildPrice(),
-              SizedBox(height: 16),
-              ElevatedButton(
-                child: Text('Save'),
-                onPressed: () {
-                  //use the API to save the new gift for the person
-                  //after confirming the save then
-                  //go to the gifts screen
-                  widget.nav(Screen.GIFTS);
-                },
-              ),
-            ],
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _buildName(),
+                SizedBox(height: 16),
+                _buildStore(),
+                SizedBox(height: 16),
+                _buildPrice(),
+                SizedBox(height: 16),
+                ElevatedButton(
+                  child: Text('Save'),
+                  onPressed: () async {
+                    //use the API to save the new gift for the person
+                    //after confirming the save then
+                    //go to the gifts screen
+                    _formKey.currentState!.save();
+                    await httpAPI.addGift(
+                      widget.currentPerson,
+                      gift['name'],
+                      '',
+                      gift['price'],
+                      gift['store']['storeName'],
+                      gift['store']['storeUrl'],
+                    );
+                    widget.nav(Screen.GIFTS);
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -124,7 +144,7 @@ class _AddGiftScreenState extends State<AddGiftScreen> {
       onSaved: (String? value) {
         //save the email value in the state variable
         setState(() {
-          gift['store'] = value;
+          gift['store']['storeUrl'] = value;
         });
       },
     );
@@ -149,7 +169,7 @@ class _AddGiftScreenState extends State<AddGiftScreen> {
         //save the email value in the state variable
         setState(() {
           if (value != null) {
-            gift['name'] = num.parse(value);
+            gift['price'] = double.parse(value);
           }
         });
       },
