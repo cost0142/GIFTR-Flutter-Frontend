@@ -194,7 +194,7 @@ class HttpHelper {
     return "";
   }
 
-//  Add person POST/
+//  Add Person
   Future<dynamic> addPerson(
     String fullName,
     String birthDate,
@@ -224,9 +224,40 @@ class HttpHelper {
     return "";
   }
 
-  // Get Gifts
+  // Add Gifts
+  Future<dynamic> addGift(
+    String personId,
+    String giftName,
+    String giftUrl,
+    double price,
+    String storeName,
+    String storeUrl,
+  ) async {
+    String endpoint = 'api/people/$personId/gifts/';
+    Uri uri = Uri.http(domain, endpoint);
 
-// -------------------- DELETE PEOPLE
+    Map<String, dynamic> body = {
+      'name': giftName,
+      'imageUrl': giftUrl,
+      'price': price,
+      'store': {
+        'storeName': storeName,
+        'storeProductURL': storeUrl,
+      },
+    };
+
+    preferences = preferences ?? await SharedPreferences.getInstance();
+    String? token = await preferences.getString('token');
+
+    headers['Authorization'] = 'Bearer $token';
+
+    http.Response response =
+        await makeRequest('post', uri, headers, formatRequest(body, 'gifts'));
+
+    Map<String, dynamic> resp = jsonDecode(response.body);
+    print(resp);
+    return "";
+  }
 
   dynamic formatRequest(Map<dynamic, dynamic> body, String type) {
     if (body['birthDate'] != null) {
