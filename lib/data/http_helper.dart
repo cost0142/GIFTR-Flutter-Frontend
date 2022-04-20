@@ -257,6 +257,19 @@ class HttpHelper {
     return "";
   }
 
+  // DELETE PEOPLE
+
+  void deletePerson(String id) async {
+    String endpoint = 'api/people/$id';
+    Uri uri = Uri.http(domain, endpoint);
+
+    preferences = preferences ?? await SharedPreferences.getInstance();
+    String? token = await preferences.getString('token');
+    headers['Authorization'] = 'Bearer $token';
+
+    http.Response response = await http.delete(uri, headers: headers);
+  }
+
   // Delete Gift
 
   Future<dynamic> deleteGift(String personId, String giftId) async {
