@@ -99,16 +99,17 @@ class _GiftsScreenState extends State<GiftsScreen> {
                 children: [
                   IconButton(
                     icon: Icon(Icons.delete, color: Colors.redAccent),
-                    onPressed: () {
-                      print('delete ${gifts[index]['name']}');
-
+                    onPressed: () async {
+                      print('delete ${gifts[index]['_id']}');
+                      await httpAPI.deleteGift(
+                          widget.currentPerson, gifts[index]['_id']);
                       //remove from gifts with setState
                       setState(() {
                         // list.where(func).toList()
                         // is like JS array.filter(func)
                         //real app needs to use API to do this.
                         gifts = gifts
-                            .where((gift) => gift['id'] != gifts[index]['id'])
+                            .where((gift) => gift['_id'] != gifts[index]['_id'])
                             .toList();
                       });
                     },

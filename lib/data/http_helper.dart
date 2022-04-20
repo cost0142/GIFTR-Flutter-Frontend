@@ -259,8 +259,8 @@ class HttpHelper {
 
   // Delete Gift
 
-  void deleteGift(String id) async {
-    String endpoint = 'api/people/gifts/$id';
+  Future<dynamic> deleteGift(String personId, String giftId) async {
+    String endpoint = 'api/people/$personId/gifts/$giftId';
     Uri uri = Uri.http(domain, endpoint);
 
     preferences = preferences ?? await SharedPreferences.getInstance();
@@ -268,6 +268,7 @@ class HttpHelper {
     headers['Authorization'] = 'Bearer $token';
 
     http.Response response = await http.delete(uri, headers: headers);
+    return '';
   }
 
   dynamic formatRequest(Map<dynamic, dynamic> body, String type) {
