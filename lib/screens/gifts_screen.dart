@@ -93,7 +93,7 @@ class _GiftsScreenState extends State<GiftsScreen> {
               //NumberFormat.simpleCurrency({String? locale, String? name, int? decimalDigits})
               //gifts[index]['price'].toStringAsFixed(2)
               subtitle: Text(
-                  '${gifts[index]['store']} - ${NumberFormat.simpleCurrency(locale: 'en_CA', decimalDigits: 2).format(gifts[index]['price'])}'),
+                  '${gifts[index]['store']["storeProductURL"]} ${NumberFormat.simpleCurrency(locale: 'en_CA', decimalDigits: 2).format(gifts[index]['price'])}'),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

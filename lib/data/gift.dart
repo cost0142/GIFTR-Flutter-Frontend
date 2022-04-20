@@ -4,7 +4,7 @@ class Gift {
   double price = 0.0;
   Map<String, String> store = {
     'name': '',
-    'productURL': '',
+    'storeProductURL': '',
   };
   String? url = '';
 
@@ -22,7 +22,8 @@ class Gift {
     id = userMap['id'];
     name = userMap['name'];
     price = userMap['price'];
-    store = userMap['store'];
-    url = userMap['url'];
+    store = userMap["store"];
+    store['name'] = userMap['store']['name'];
+    store["storeProductURL"] = userMap['store']['storeProductURL'];
   }
 }
