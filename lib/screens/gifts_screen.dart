@@ -52,13 +52,10 @@ class _GiftsScreenState extends State<GiftsScreen> {
     people.forEach((element) {
       if (element.id == widget.currentPerson) {
         person = element;
-              setState(() {
-      
-        gifts = person!.gifts;
-        
-      });
+        setState(() {
+          gifts = person!.gifts;
+        });
       }
-
     });
   }
 
