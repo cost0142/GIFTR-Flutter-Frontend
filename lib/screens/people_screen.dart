@@ -44,7 +44,9 @@ class _PeopleScreenState extends State<PeopleScreen> {
   Widget build(BuildContext context) {
     //code here runs for every build
     //someObjects.sort((a, b) => a.someProperty.compareTo(b.someProperty));
+    people.sort((a, b) => a.birthDate.day.compareTo(b.birthDate.day));
     people.sort((a, b) => a.birthDate.month.compareTo(b.birthDate.month));
+
     //sort the people by the month of birth
 
     return Scaffold(
@@ -64,36 +66,59 @@ class _PeopleScreenState extends State<PeopleScreen> {
       body: ListView.builder(
         itemCount: people.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            //different background colors for birthdays that are past
-            tileColor: today.month > people[index].birthDate.month
-                ? Colors.black12
-                : Colors.white,
-            title: Text(people[index].fullName),
-            subtitle: Text(DateFormat.MMMd().format(people[index].birthDate)),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.edit, color: Colors.grey),
-                  onPressed: () {
-                    print('edit person $index');
-                    print('go to the add_person_screen');
-                    print(people[index].id);
-                    widget.goEdit(people[index].id, people[index].fullName,
-                        people[index].birthDate);
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.lightbulb, color: Colors.amber),
-                  onPressed: () {
-                    print('view gift ideas for person $index');
-                    print('go to the gifts_screen');
-                    widget.goGifts(people[index].id, people[index].fullName);
-                  },
-                ),
-              ],
+          return Dismissible(
+            key: ValueKey<String>('${people[index].id}'),
+            child: ListTile(
+              //different background colors for birthdays that are past
+              tileColor: today.month > people[index].birthDate.month
+                  ? Colors.black12
+                  : Colors.white,
+              title: Text(people[index].fullName),
+              subtitle: Text(DateFormat.MMMd().format(people[index].birthDate)),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.edit, color: Colors.grey),
+                    onPressed: () {
+                      print('edit person $index');
+                      print('go to the add_person_screen');
+                      print(people[index].id);
+                      widget.goEdit(people[index].id, people[index].fullName,
+                          people[index].birthDate);
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.lightbulb, color: Colors.amber),
+                    onPressed: () {
+                      print('view gift ideas for person $index');
+                      print('go to the gifts_screen');
+                      widget.goGifts(people[index].id, people[index].fullName);
+                    },
+                  ),
+                ],
+              ),
             ),
+            background: Container(
+              alignment: Alignment.centerLeft,
+              color: Colors.red,
+              child: Padding(
+                child: Icon(
+                  Icons.cancel,
+                  color: Colors.white,
+                ),
+                padding: EdgeInsets.all(8.0),
+              ),
+            ),
+            direction: DismissDirection.horizontal,
+            onDismissed: (direction) {
+              print('delete person $index');
+              print('delete person ${people[index].id}');
+              httpAPI.deletePerson(people[index].id);
+              setState(() {
+                people.removeAt(index);
+              });
+            },
           );
         },
       ),
