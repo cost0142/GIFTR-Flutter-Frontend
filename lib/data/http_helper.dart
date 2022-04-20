@@ -156,8 +156,8 @@ class HttpHelper {
     Map<String, dynamic> resp = jsonDecode(response.body);
 
     if (resp['data'] != null) {
-      print('benenenenenenenenenenenen${resp['data']}');
       List<Person> people = resp['data'].map<Person>((element) {
+        // print(resp);
         Person person = Person.fromJSON(element['attributes']);
         person.id = element['id'];
         return person;
@@ -223,6 +223,8 @@ class HttpHelper {
 
     return "";
   }
+
+  // Get Gifts
 
 // -------------------- DELETE PEOPLE
 

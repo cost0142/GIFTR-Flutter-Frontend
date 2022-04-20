@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../data/http_helper.dart';
+import '../data/person.dart';
 
 enum Screen { LOGIN, PEOPLE, GIFTS, ADDGIFT, ADDPERSON }
 
@@ -25,12 +26,38 @@ class GiftsScreen extends StatefulWidget {
 }
 
 class _GiftsScreenState extends State<GiftsScreen> {
-  List<Map<String, dynamic>> gifts = [
-    {'id': 123, 'name': 'Gift Idea 1', 'store': 'Some place', 'price': 12.85},
-    {'id': 456, 'name': 'Gift Idea 2', 'store': 'Some place', 'price': 2.99},
-    {'id': 789, 'name': 'Gift Idea 3', 'store': 'Some place', 'price': 4.00},
-    {'id': 159, 'name': 'Gift Idea 4', 'store': 'Some place', 'price': 55.50},
-  ];
+  HttpHelper httpAPI = HttpHelper();
+  List<dynamic> gifts = [];
+  List<dynamic>? peopleData;
+
+  @override
+  void initState() {
+    super.initState();
+    findPersonGifts();
+  }
+
+  //state var list of people
+  //real app will be using the API to get the data
+
+  // void getPeople() async {
+  //   peopleData = await httpAPI.getPeople();
+
+  // }
+
+  void findPersonGifts() async {
+    Person? person;
+    List<dynamic> people = await httpAPI.getPeople();
+
+    people.forEach((element) {
+      if (element.id == widget.currentPerson) {
+        person = element;
+      }
+      setState(() {
+        print(person!.gifts);
+        gifts = person!.gifts;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +89,7 @@ class _GiftsScreenState extends State<GiftsScreen> {
           itemBuilder: (context, index) {
             return ListTile(
               title: Text(gifts[index]['name']),
+
               //NumberFormat.simpleCurrency({String? locale, String? name, int? decimalDigits})
               //gifts[index]['price'].toStringAsFixed(2)
               subtitle: Text(
@@ -73,6 +101,7 @@ class _GiftsScreenState extends State<GiftsScreen> {
                     icon: Icon(Icons.delete, color: Colors.redAccent),
                     onPressed: () {
                       print('delete ${gifts[index]['name']}');
+
                       //remove from gifts with setState
                       setState(() {
                         // list.where(func).toList()
