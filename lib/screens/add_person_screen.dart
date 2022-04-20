@@ -75,15 +75,17 @@ class _AddPersonScreenState extends State<AddPersonScreen> {
                 children: [
                   ElevatedButton(
                     child: Text('Save'),
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
                         if (widget.currentPersonName.isEmpty) {
                           //add person
-                          httpAPI.addPerson(person['name'], person['dob']);
+                        await httpAPI.addPerson (person['name'], person['dob']);
                         } else {
                           //edit person
-                          httpAPI.editPerson(widget.currentPerson,
+                          print(person['name']);  
+                          print(person['dob']);
+                          await httpAPI.editPerson(widget.currentPerson,
                               person['name'], person['dob']);
                         }
                       }

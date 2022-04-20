@@ -116,6 +116,7 @@ class HttpHelper {
     Map<String, dynamic> resp = jsonDecode(response.body);
     preferences = preferences ?? await SharedPreferences.getInstance();
 
+    print(resp);
     headers["Authorization"] = 'Bearer ${resp['data']['token']}';
 
     if (resp['data'] != null) {
@@ -169,7 +170,7 @@ class HttpHelper {
   }
 
 //edit person -- PATCH
-  void editPerson(
+  Future<dynamic> editPerson(
     String id,
     String fullName,
     String birthDate,
@@ -178,7 +179,7 @@ class HttpHelper {
     Uri uri = Uri.http(domain, endpoint);
 
     Map<String, dynamic> body = {
-      'fullName': fullName,
+      'name': fullName,
       'birthDate': birthDate.toString(),
     };
 
@@ -189,10 +190,12 @@ class HttpHelper {
     http.Response response =
         await makeRequest('patch', uri, headers, formatRequest(body, 'person'));
     Map<String, dynamic> resp = jsonDecode(response.body);
+    print(resp);
+    return "";
   }
 
-// edit person POST/
-  void addPerson(
+//  Add person POST/
+  Future<dynamic> addPerson(
     String fullName,
     String birthDate,
   ) async {
@@ -200,18 +203,25 @@ class HttpHelper {
     Uri uri = Uri.http(domain, endpoint);
 
     Map<String, dynamic> body = {
-      'fullName': fullName,
+      'name': fullName,
       'birthDate': birthDate.toString(),
+      'owner': "",
+      'gifts': [],
+      'shareWith': [],
+      'imageUrl': "",
     };
 
     preferences = preferences ?? await SharedPreferences.getInstance();
     String? token = await preferences.getString('token');
-    print(token);
+
     headers['Authorization'] = 'Bearer $token';
 
     http.Response response =
         await makeRequest('post', uri, headers, formatRequest(body, 'person'));
+
     Map<String, dynamic> resp = jsonDecode(response.body);
+
+    return "";
   }
 
 // -------------------- DELETE PEOPLE
