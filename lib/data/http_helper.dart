@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:async'; //for Future
@@ -112,11 +114,14 @@ class HttpHelper {
         await makeRequest('post', uri, headers, formatRequest(body, "tokens"));
 
     Map<String, dynamic> resp = jsonDecode(response.body);
+    preferences = preferences ?? await SharedPreferences.getInstance();
+
     print(resp);
     headers["Authorization"] = 'Bearer ${resp['data']['token']}';
-    print(headers);
+
     if (resp['data'] != null) {
       String token = resp['data']['token'];
+      await preferences.setString('token', token);
       updateToken(token);
       return token;
     } else {
@@ -132,7 +137,7 @@ class HttpHelper {
     http.Response response = await http.get(uri, headers: headers);
 
     Map<String, dynamic> resp = jsonDecode(response.body);
-    print(resp);
+
     return resp;
   }
 
@@ -140,34 +145,86 @@ class HttpHelper {
   Future<List> getPeople() async {
     String endpoint = 'api/people';
     Uri uri = Uri.http(domain, endpoint);
-    print(uri);
-
-    print(headers);
 
     //get request
     preferences = preferences ?? await SharedPreferences.getInstance();
-
     String? token = await preferences.getString('token');
-
     headers['Authorization'] = 'Bearer $token';
 
     http.Response response = await http.get(uri, headers: headers);
 
     Map<String, dynamic> resp = jsonDecode(response.body);
 
-    if (resp['data'] != 'null') {
-      print(resp);
+    if (resp['data'] != null) {
+      print('benenenenenenenenenenenen${resp['data']}');
       List<Person> people = resp['data'].map<Person>((element) {
         Person person = Person.fromJSON(element['attributes']);
+        person.id = element['id'];
         return person;
       }).toList();
-      print(people);
       return people;
     } else {
       String msg = '${resp['errors'][0]['code']} ${resp['errors'][0]['title']}';
       throw Exception(msg);
     }
   }
+
+//edit person -- PATCH
+  Future<dynamic> editPerson(
+    String id,
+    String fullName,
+    String birthDate,
+  ) async {
+    String endpoint = 'api/people/$id';
+    Uri uri = Uri.http(domain, endpoint);
+
+    Map<String, dynamic> body = {
+      'name': fullName,
+      'birthDate': birthDate.toString(),
+    };
+
+    preferences = preferences ?? await SharedPreferences.getInstance();
+    String? token = await preferences.getString('token');
+    headers['Authorization'] = 'Bearer $token';
+
+    http.Response response =
+        await makeRequest('patch', uri, headers, formatRequest(body, 'person'));
+    Map<String, dynamic> resp = jsonDecode(response.body);
+    print(resp);
+    return "";
+  }
+
+//  Add person POST/
+  Future<dynamic> addPerson(
+    String fullName,
+    String birthDate,
+  ) async {
+    String endpoint = 'api/people/';
+    Uri uri = Uri.http(domain, endpoint);
+
+    Map<String, dynamic> body = {
+      'name': fullName,
+      'birthDate': birthDate.toString(),
+      'owner': "",
+      'gifts': [],
+      'shareWith': [],
+      'imageUrl': "",
+    };
+
+    preferences = preferences ?? await SharedPreferences.getInstance();
+    String? token = await preferences.getString('token');
+
+    headers['Authorization'] = 'Bearer $token';
+
+    http.Response response =
+        await makeRequest('post', uri, headers, formatRequest(body, 'person'));
+
+    Map<String, dynamic> resp = jsonDecode(response.body);
+
+    return "";
+  }
+
+// -------------------- DELETE PEOPLE
 
   dynamic formatRequest(Map<dynamic, dynamic> body, String type) {
     if (body['birthDate'] != null) {

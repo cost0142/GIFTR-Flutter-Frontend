@@ -4,6 +4,8 @@ import '../data/http_helper.dart';
 
 enum Screen { LOGIN, PEOPLE, GIFTS, ADDGIFT, ADDPERSON }
 
+HttpHelper httpAPI = HttpHelper();
+
 class AddPersonScreen extends StatefulWidget {
   AddPersonScreen({
     Key? key,
@@ -15,7 +17,7 @@ class AddPersonScreen extends StatefulWidget {
 
   Function nav;
   String currentPersonName; // could be empty string
-  int currentPerson; //could be zero
+  String currentPerson; //could be zero
   DateTime personDOB;
 
   @override
@@ -60,37 +62,55 @@ class _AddPersonScreenState extends State<AddPersonScreen> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(16.0),
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            _buildName(),
-            SizedBox(height: 16),
-            _buildDOB(),
-            SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  child: Text('Save'),
-                  onPressed: () {
-                    //use the API to save the new person
-                    //go to the people screen
-                    widget.nav(Screen.PEOPLE);
-                  },
-                ),
-                SizedBox(width: 16.0),
-                if (widget.currentPerson > 0)
+          child: Form(
+            key: _formKey,
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              _buildName(),
+              SizedBox(height: 16),
+              _buildDOB(),
+              SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.red,
-                    ),
-                    child: Text('Delete'),
-                    onPressed: () {
-                      //delete the selected person
-                      //needs confirmation dialog
+                    child: Text('Save'),
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        if (widget.currentPersonName.isEmpty) {
+                          //add person
+                        await httpAPI.addPerson (person['name'], person['dob']);
+                        } else {
+                          //edit person
+                          print(person['name']);  
+                          print(person['dob']);
+                          await httpAPI.editPerson(widget.currentPerson,
+                              person['name'], person['dob']);
+                        }
+                      }
+
+                      //use the API to save the new person
+                      //go to the people screen
+                      widget.nav(Screen.PEOPLE);
                     },
                   ),
-              ],
-            ),
-          ]),
+                  SizedBox(width: 16.0),
+                  // if (widget.currentPerson > 0)
+                  //   ElevatedButton(
+                  //     style: ElevatedButton.styleFrom(
+                  //       primary: Colors.red,
+                  //     ),
+                  //     child: Text('Delete'),
+                  //     onPressed: () {
+                  //       //delete the selected person
+                  //       //needs confirmation dialog
+                  //     },
+                  //   ),
+                ],
+              ),
+            ]),
+          ),
         ),
       ),
     );
