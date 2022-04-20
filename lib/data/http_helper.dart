@@ -157,7 +157,6 @@ class HttpHelper {
 
     if (resp['data'] != null) {
       List<Person> people = resp['data'].map<Person>((element) {
-        // print(resp);
         Person person = Person.fromJSON(element['attributes']);
         person.id = element['id'];
         return person;
@@ -190,7 +189,6 @@ class HttpHelper {
     http.Response response =
         await makeRequest('patch', uri, headers, formatRequest(body, 'person'));
     Map<String, dynamic> resp = jsonDecode(response.body);
-    print(resp);
     return "";
   }
 

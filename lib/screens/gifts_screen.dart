@@ -29,6 +29,7 @@ class _GiftsScreenState extends State<GiftsScreen> {
   HttpHelper httpAPI = HttpHelper();
   List<dynamic> gifts = [];
   List<dynamic>? peopleData;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -51,11 +52,13 @@ class _GiftsScreenState extends State<GiftsScreen> {
     people.forEach((element) {
       if (element.id == widget.currentPerson) {
         person = element;
-      }
-      setState(() {
-        print(person!.gifts);
+              setState(() {
+      
         gifts = person!.gifts;
+        
       });
+      }
+
     });
   }
 
