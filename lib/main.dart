@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 //screens
 import '../screens/login_screen.dart';
+import '../screens/signup_screen.dart';
 import '../screens/people_screen.dart';
 import '../screens/gifts_screen.dart';
 import '../screens/add_person_screen.dart';
@@ -18,7 +19,7 @@ import '../data/gift.dart';
 //theme
 import './utils/theme.dart';
 
-enum Screen { LOGIN, PEOPLE, GIFTS, ADDGIFT, ADDPERSON }
+enum Screen { SIGNUP, LOGIN, PEOPLE, GIFTS, ADDGIFT, ADDPERSON }
 
 void main() => runApp(const MyApp());
 
@@ -61,11 +62,27 @@ class _MainPageState extends State<MainPage> {
   Widget loadBody(Enum screen) {
     switch (screen) {
       case Screen.LOGIN:
-        return LoginScreen(nav: () {
-          print('from login to people');
-          setState(() => currentScreen = Screen.PEOPLE);
-        });
-        break;
+        return LoginScreen(
+          goPeople: () {
+            print('from login to people');
+            setState(() => currentScreen = Screen.PEOPLE);
+          },
+          goSignUp: () {
+            print('from login to signup');
+            setState(() => currentScreen = Screen.SIGNUP);
+          },
+        );
+      case Screen.SIGNUP:
+        return SignupScreen(
+          goPeople: () {
+            print('from signup to people');
+            setState(() => currentScreen = Screen.PEOPLE);
+          },
+          goLogin: () {
+            print('from signup to login');
+            setState(() => currentScreen = Screen.LOGIN);
+          },
+        );
       case Screen.PEOPLE:
         return PeopleScreen(
           goGifts: (String pid, String name) {
@@ -129,10 +146,16 @@ class _MainPageState extends State<MainPage> {
           currentPersonName: currentPersonName,
         );
       default:
-        return LoginScreen(nav: () {
-          print('from login to people');
-          setState(() => currentScreen = Screen.LOGIN);
-        });
+        return LoginScreen(
+          goPeople: () {
+            print('from login to people');
+            setState(() => currentScreen = Screen.PEOPLE);
+          },
+          goSignUp: () {
+            print('from login to people');
+            setState(() => currentScreen = Screen.SIGNUP);
+          },
+        );
     }
   }
 }

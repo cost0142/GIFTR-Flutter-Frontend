@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../data/http_helper.dart';
 
-enum Screen { LOGIN, PEOPLE, GIFTS, ADDGIFT, ADDPERSON }
+enum Screen { SIGNUP, LOGIN, PEOPLE, GIFTS, ADDGIFT, ADDPERSON }
 
 class PeopleScreen extends StatefulWidget {
   PeopleScreen(

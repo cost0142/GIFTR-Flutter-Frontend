@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_multi_screen/screens/add_person_screen.dart';
 import '../data/http_helper.dart';
 
-enum Screen { LOGIN, PEOPLE, GIFTS, ADDGIFT, ADDPERSON }
+enum Screen { SIGNUP, LOGIN, PEOPLE, GIFTS, ADDGIFT, ADDPERSON }
 
 class AddGiftScreen extends StatefulWidget {
   AddGiftScreen(

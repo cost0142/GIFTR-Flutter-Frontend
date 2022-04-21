@@ -3,18 +3,19 @@ import '../data/http_helper.dart';
 
 enum Screen { SIGNUP, LOGIN, PEOPLE, GIFTS, ADDGIFT, ADDPERSON }
 
-class LoginScreen extends StatefulWidget {
-  LoginScreen({Key? key, required this.goPeople, required this.goSignUp})
+class SignupScreen extends StatefulWidget {
+  SignupScreen({Key? key, required this.goLogin, required this.goPeople})
       : super(key: key);
-
+  Function goLogin;
   Function goPeople;
-  Function goSignUp;
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -23,13 +24,18 @@ class _LoginScreenState extends State<LoginScreen> {
   //create global ref key for the form
   final _formKey = GlobalKey<FormState>();
   //state value for user login
-  Map<String, dynamic> user = {'email': '', 'password': ''};
+  Map<String, dynamic> user = {
+    'firstName': '',
+    'lastName': '',
+    'email': '',
+    'password': ''
+  };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Login to Giftr'),
+          title: Text('SignUp to Giftr'),
           centerTitle: true,
         ),
         body: SafeArea(
@@ -41,6 +47,10 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    _buildFirstName(),
+                    SizedBox(height: 16),
+                    _buildLastName(),
+                    SizedBox(height: 16),
                     _buildEmail(),
                     SizedBox(height: 16),
                     _buildPassword(),
@@ -48,28 +58,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // ******************************************************************************  Onpressed Function +++++++++"Log In"++++++++++++++++
-                        ElevatedButton.icon(
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              //validation has been passed so we can save the form
-                              _formKey.currentState!.save();
-                              String string = await httpAPI.Login(
-                                  user['email'], user['password']);
-                              if (string != null) widget.goPeople();
-                              //triggers the onSave in each form field
-                              //call the API function to post the data
-                              //accept the response from the server and
-                              //save the token in SharedPreferences
-                              //go to the people screen
-                            } else {
-                              //form failed validation so exit
-                              return;
-                            }
-                          },
-                          icon: Icon(Icons.arrow_forward),
-                          label: Text('Log In'),
-                        ),
                         // ************************************************************************************  Onpressed Function ++++++++"Log In"++++++++++++++++++++
                         SizedBox(width: 16.0),
                         ElevatedButton(
@@ -78,8 +66,28 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                           child: Text('Sign Up'),
                           // ******************************************************************************  Onpressed Function +++++++"Sign Up"+++++++++++++++++++++
-                          onPressed: () {
-                            widget.goSignUp();
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              //validation has been passed so we can save the form
+                              _formKey.currentState!.save();
+                              await httpAPI.signUp(
+                                  user['firstName'],
+                                  user['lastName'],
+                                  user['email'],
+                                  user['password']);
+                              await httpAPI.Login(
+                                  user['email'], user['password']);
+                              print('Sign Up');
+                              //triggers the onSave in each form field
+                              //call the API function to post the data
+                              //accept the response from the server and
+                              //save the token in SharedPreferences
+                              //go to the people screen
+                              widget.goPeople();
+                            } else {
+                              //form failed validation so exit
+                              return;
+                            }
                           },
                           // ******************************************************************************  Onpressed Function +++++++"Sign Up"+++++++++++++++++++++
                         ),
@@ -97,6 +105,60 @@ class _LoginScreenState extends State<LoginScreen> {
       labelStyle: TextStyle(color: Colors.white),
       // hintText: hint, //placeholder
       border: OutlineInputBorder(),
+    );
+  }
+
+  TextFormField _buildFirstName() {
+    return TextFormField(
+      decoration: _styleField('First name', 'FirstName'),
+      controller: firstNameController,
+      obscureText: false,
+      keyboardType: TextInputType.name,
+      textInputAction: TextInputAction.next,
+      style: TextStyle(color: Colors.white, fontSize: 23),
+      validator: (String? value) {
+        print('called validator in first name');
+        if (value == null || value.isEmpty) {
+          return 'Please enter your first name';
+          //becomes the new errorText value
+        } else if (value.length >= 64) {
+          return 'Please enter your first name within 64 characters';
+        }
+        return null; //means all is good
+      },
+      onSaved: (String? value) {
+        //save the email value in the state variable
+        setState(() {
+          user['firstName'] = value;
+        });
+      },
+    );
+  }
+
+  TextFormField _buildLastName() {
+    return TextFormField(
+      decoration: _styleField('Last name', 'LastName'),
+      controller: lastNameController,
+      obscureText: false,
+      keyboardType: TextInputType.name,
+      textInputAction: TextInputAction.next,
+      style: TextStyle(color: Colors.white, fontSize: 23),
+      validator: (String? value) {
+        print('called validator in last name');
+        if (value == null || value.isEmpty) {
+          return 'Please enter your last name';
+          //becomes the new errorText value
+        } else if (value.length >= 64) {
+          return 'Please enter your last name within 64 characters';
+        }
+        return null; //means all is good
+      },
+      onSaved: (String? value) {
+        //save the email value in the state variable
+        setState(() {
+          user['lastName'] = value;
+        });
+      },
     );
   }
 
