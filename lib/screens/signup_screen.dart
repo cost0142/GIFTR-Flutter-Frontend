@@ -35,6 +35,13 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              //back to the people page using the function from main.dart
+              widget.goLogin();
+            },
+          ),
           title: Text('SignUp to Giftr'),
           centerTitle: true,
         ),
