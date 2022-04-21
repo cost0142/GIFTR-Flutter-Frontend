@@ -51,7 +51,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (_formKey.currentState!.validate()) {
                               //validation has been passed so we can save the form
                               _formKey.currentState!.save();
-                              print(user);
                               String string = await httpAPI.Login(
                                   user['email'], user['password']);
                               if (string != null) widget.nav();
@@ -80,9 +79,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (_formKey.currentState!.validate()) {
                               //validation has been passed so we can save the form
                               _formKey.currentState!.save();
-                              print(user);
-                              httpAPI.signUp('jasper', 'sun', user['email'],
-                                  user['password']);
+                              httpAPI.signUp(
+                                  '', '', user['email'], user['password']);
                               print('Sign Up');
                               //triggers the onSave in each form field
                               //call the API function to post the data
