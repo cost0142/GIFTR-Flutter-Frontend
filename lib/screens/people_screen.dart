@@ -95,14 +95,14 @@ class _PeopleScreenState extends State<PeopleScreen> {
             child: ListTile(
               //different background colors for birthdays that are past
               tileColor: today.month > people[index].birthDate.month
-                  ? Color.fromARGB(77, 68, 68, 68)
+                  ? Colors.white24
                   : today.month == people[index].birthDate.month &&
                           today.day > people[index].birthDate.day
-                      ? Colors.white30
+                      ? Colors.white24
                       : today.month == people[index].birthDate.month &&
                               today.day == people[index].birthDate.day
                           ? Color.fromARGB(255, 77, 119, 177)
-                          : Color.fromARGB(255, 29, 93, 149),
+                          : Color.fromARGB(255, 77, 119, 177),
               title: Text(people[index].fullName),
               subtitle: Text(DateFormat.MMMd().format(people[index].birthDate)),
               trailing: Row(

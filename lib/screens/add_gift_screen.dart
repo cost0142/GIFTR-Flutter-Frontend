@@ -93,9 +93,9 @@ class _AddGiftScreenState extends State<AddGiftScreen> {
   InputDecoration _styleField(String label, String hint) {
     return InputDecoration(
       labelText: label, // label
-      labelStyle: TextStyle(color: Colors.black87),
+      labelStyle: TextStyle(color: Colors.white),
       hintText: hint, //placeholder
-      hintStyle: TextStyle(color: Colors.black54),
+      hintStyle: TextStyle(color: Colors.white),
       border: OutlineInputBorder(),
     );
   }
@@ -107,7 +107,7 @@ class _AddGiftScreenState extends State<AddGiftScreen> {
       obscureText: false,
       keyboardType: TextInputType.name,
       textInputAction: TextInputAction.next,
-      style: TextStyle(color: Colors.lightBlue, fontSize: 20),
+      style: TextStyle(color: Colors.white, fontSize: 23),
       validator: (String? value) {
         print('called validator in email');
         if (value == null || value.isEmpty) {
@@ -132,7 +132,7 @@ class _AddGiftScreenState extends State<AddGiftScreen> {
       obscureText: false,
       keyboardType: TextInputType.url,
       textInputAction: TextInputAction.next,
-      style: TextStyle(color: Colors.lightBlue, fontSize: 20),
+      style: TextStyle(color: Colors.white, fontSize: 23),
       validator: (String? value) {
         print('called validator in store url');
         if (value == null || value.isEmpty) {
@@ -157,7 +157,7 @@ class _AddGiftScreenState extends State<AddGiftScreen> {
       obscureText: false,
       keyboardType: TextInputType.number,
       textInputAction: TextInputAction.next,
-      style: TextStyle(color: Colors.lightBlue, fontSize: 20),
+      style: TextStyle(color: Colors.white, fontSize: 23),
       validator: (String? value) {
         if (value == null || value.isEmpty) {
           return 'Please enter a price';

@@ -10,8 +10,8 @@ class MyTheme {
     final ThemeData darkBase = ThemeData.from(
       colorScheme: const ColorScheme(
         //base colour scheme that can be overridden for widgets
-        primary: Colors.white,
-        onPrimary: Colors.purple,
+        primary: Color.fromARGB(255, 243, 243, 243),
+        onPrimary: Colors.black,
         secondary: Colors.blueGrey,
         onSecondary: Colors.lime,
         tertiary: Colors.amber,
@@ -24,10 +24,10 @@ class MyTheme {
         tertiaryContainer: Colors.blueAccent,
         onTertiaryContainer: Colors.black,
 
-        background: Colors.indigoAccent,
+        background: Color.fromARGB(255, 32, 42, 47),
         onBackground: Colors.white,
         surface: Colors.lightGreen,
-        onSurface: Colors.grey,
+        onSurface: Colors.white,
         error: Colors.pink,
         onError: Colors.black87,
 
@@ -44,22 +44,22 @@ class MyTheme {
           fontFamily: 'SendFlowers',
         ),
         headline2: TextStyle(
-          fontSize: 48,
+          fontSize: 50,
           fontWeight: FontWeight.w500,
           fontFamily: 'SendFlowers',
         ),
         headline3: TextStyle(
-          fontSize: 48,
+          fontSize: 50,
           fontWeight: FontWeight.w300,
           fontFamily: 'SendFlowers',
         ),
         headline4: TextStyle(
-          fontSize: 36,
+          fontSize: 35,
           fontWeight: FontWeight.w300,
           fontFamily: 'SendFlowers',
         ),
         headline5: TextStyle(
-          fontSize: 24,
+          fontSize: 25,
           fontWeight: FontWeight.w500,
           fontFamily: 'SendFlowers',
         ),
@@ -69,7 +69,7 @@ class MyTheme {
           fontFamily: 'SendFlowers',
         ),
         bodyText1: TextStyle(
-          fontSize: 24,
+          fontSize: 25,
           fontWeight: FontWeight.w300,
           fontFamily: 'SendFlowers',
         ),
@@ -84,12 +84,12 @@ class MyTheme {
           fontFamily: 'SendFlowers',
         ),
         subtitle2: TextStyle(
-          fontSize: 20,
+          fontSize: 25,
           fontWeight: FontWeight.w300,
           fontFamily: 'SendFlowers',
         ),
         button: TextStyle(
-          fontSize: 24,
+          fontSize: 25,
           fontWeight: FontWeight.w500,
           fontFamily: 'SendFlowers',
         ),
@@ -100,7 +100,7 @@ class MyTheme {
     //to style specific widgets
     ThemeData dark = darkBase.copyWith(
       //colours set in here will override the ColorScheme
-      scaffoldBackgroundColor: Color.fromARGB(255, 32, 42, 47),
+      scaffoldBackgroundColor: Color.fromARGB(255, 29, 32, 33),
       shadowColor: Color.fromARGB(153, 76, 174, 192),
 
       appBarTheme: const AppBarTheme(
@@ -139,7 +139,7 @@ class MyTheme {
 
       textButtonTheme: TextButtonThemeData(
         style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(Colors.purple),
+          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
         ),
       ),
 
@@ -159,7 +159,7 @@ class MyTheme {
       ),
 
       listTileTheme: const ListTileThemeData(
-        tileColor: Colors.amber,
+        tileColor: Color.fromARGB(255, 74, 140, 210),
         textColor:
             Color.fromARGB(255, 235, 235, 235), //sets both title and subtitle
         style: ListTileStyle.list,

@@ -98,7 +98,8 @@ class _GiftsScreenState extends State<GiftsScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.delete, color: Colors.redAccent),
+                    icon: Icon(Icons.delete,
+                        color: Color.fromARGB(255, 240, 79, 21)),
                     onPressed: () async {
                       print('delete ${gifts[index]['_id']}');
                       await httpAPI.deleteGift(
