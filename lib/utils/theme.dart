@@ -144,7 +144,7 @@ class MyTheme {
       ),
 
       cardTheme: const CardTheme(
-        color: Color(0xFF339966), //background of card
+        color: Color.fromARGB(255, 25, 172, 98), //background of card
         elevation: 12, //shadow distance, z-index for all cards
         //to change the rounding of the corners use shape
         shape: RoundedRectangleBorder(
