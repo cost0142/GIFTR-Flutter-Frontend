@@ -38,7 +38,6 @@ class _PeopleScreenState extends State<PeopleScreen> {
 
   Future<List> getPeople() async {
     peopleData = await httpAPI.getPeople();
-    print(peopleData);
     return peopleData!;
   }
 

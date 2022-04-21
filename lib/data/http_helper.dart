@@ -87,7 +87,6 @@ class HttpHelper {
         await makeRequest('post', uri, headers, formatRequest(body, "users"));
 
     Map<String, dynamic> resp = jsonDecode(response.body);
-    print(resp);
     return User(
       firstName: firstName,
       lastName: lastName,
