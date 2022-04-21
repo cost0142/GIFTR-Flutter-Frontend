@@ -15,6 +15,9 @@ import '../data/user.dart';
 import '../data/person.dart';
 import '../data/gift.dart';
 
+//theme
+import './utils/theme.dart';
+
 enum Screen { LOGIN, PEOPLE, GIFTS, ADDGIFT, ADDPERSON }
 
 void main() => runApp(const MyApp());
@@ -26,6 +29,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     //put the things that are the same on every page here...
     return MaterialApp(
+      //theme: ThemeData.light(), //the default theme
+      theme: MyTheme.buildDark(), //the dark theme
       home: MainPage(),
     );
   }
