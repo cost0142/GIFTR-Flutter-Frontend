@@ -180,7 +180,7 @@ class _SignupScreenState extends State<SignupScreen> {
       validator: (String? value) {
         print('called validator in email');
         if (value == null || value.isEmpty) {
-          return 'Please enter something';
+          return 'Please enter your email';
           //becomes the new errorText value
         }
         if (!RegExp(
@@ -209,7 +209,7 @@ class _SignupScreenState extends State<SignupScreen> {
       style: TextStyle(color: Colors.white, fontSize: 23),
       validator: (String? value) {
         if (value == null || value.isEmpty || value.length < 5) {
-          return 'Please enter something';
+          return 'Please enter your password';
           //becomes the new errorText value
         }
         return null; //means all is good

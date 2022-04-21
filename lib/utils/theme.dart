@@ -28,7 +28,7 @@ class MyTheme {
         onBackground: Colors.white,
         surface: Colors.lightGreen,
         onSurface: Colors.white,
-        error: Colors.pink,
+        error: Color.fromARGB(255, 246, 59, 7),
         onError: Colors.black87,
 
         brightness: Brightness.light, // will switch text between dark/light
