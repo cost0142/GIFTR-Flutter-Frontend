@@ -143,7 +143,7 @@ class _GiftsScreenState extends State<GiftsScreen> {
                                   });
                                 },
                                 child: const Text(
-                                  'Dismiss',
+                                  'Delete',
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),

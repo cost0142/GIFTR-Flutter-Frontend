@@ -184,7 +184,7 @@ class _PeopleScreenState extends State<PeopleScreen> {
                           Navigator.pop(context, Future(() => true));
                         },
                         child: const Text(
-                          'Dismiss',
+                          'Delete',
                           style: TextStyle(
                             color: Colors.white,
                           ),
