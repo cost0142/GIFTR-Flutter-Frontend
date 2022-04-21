@@ -120,9 +120,9 @@ class _AddPersonScreenState extends State<AddPersonScreen> {
   InputDecoration _styleField(String label, String hint, bool pickDate) {
     return InputDecoration(
       labelText: label, // label
-      labelStyle: TextStyle(color: Colors.black87),
+      labelStyle: TextStyle(color: Colors.white),
       hintText: hint, //placeholder
-      hintStyle: TextStyle(color: Colors.black54),
+      hintStyle: TextStyle(color: Colors.white),
       border: OutlineInputBorder(),
       suffixIcon: pickDate
           ? IconButton(
@@ -142,7 +142,7 @@ class _AddPersonScreenState extends State<AddPersonScreen> {
       obscureText: false,
       keyboardType: TextInputType.name,
       textInputAction: TextInputAction.next,
-      style: TextStyle(color: Colors.lightBlue, fontSize: 20),
+      style: TextStyle(color: Colors.white, fontSize: 23),
       validator: (String? value) {
         if (value == null || value.isEmpty) {
           return 'Please enter a name';
@@ -184,7 +184,7 @@ class _AddPersonScreenState extends State<AddPersonScreen> {
       obscureText: false,
       keyboardType: TextInputType.datetime,
       textInputAction: TextInputAction.next,
-      style: TextStyle(color: Colors.lightBlue, fontSize: 20),
+      style: TextStyle(color: Colors.white, fontSize: 23),
       validator: (String? value) {
         if (value == null || value.isEmpty) {
           return 'Please enter a valid date';
