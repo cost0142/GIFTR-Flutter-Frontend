@@ -98,23 +98,62 @@ class _GiftsScreenState extends State<GiftsScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.delete,
-                        color: Color.fromARGB(255, 240, 79, 21)),
-                    onPressed: () async {
-                      print('delete ${gifts[index]['_id']}');
-                      await httpAPI.deleteGift(
-                          widget.currentPerson, gifts[index]['_id']);
-                      //remove from gifts with setState
-                      setState(() {
-                        // list.where(func).toList()
-                        // is like JS array.filter(func)
-                        //real app needs to use API to do this.
-                        gifts = gifts
-                            .where((gift) => gift['_id'] != gifts[index]['_id'])
-                            .toList();
-                      });
-                    },
-                  ),
+                      icon: Icon(Icons.delete,
+                          color: Color.fromARGB(255, 240, 79, 21)),
+                      onPressed: () async {
+                        await showDialog<Future<bool>>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: const Text(
+                              'Delete Confirmation',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            content: const Text(
+                                'Are you sure that you want to delete this person?',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                )),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  //remove the AlertDialog from the screen
+                                  //return the Future containing the true boolean
+                                  Navigator.pop(context, Future(() => false));
+                                },
+                                child: const Text(
+                                  'Cancel',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  //remove the AlertDialog from the screen
+                                  //return the Future containing the true boolean
+                                  Navigator.pop(context, Future(() => true));
+                                  print('delete ${gifts[index]['_id']}');
+                                  httpAPI.deleteGift(widget.currentPerson,
+                                      gifts[index]['_id']);
+                                  //remove from gifts with setState
+                                  setState(() {
+                                    gifts.removeAt(index);
+                                  });
+                                },
+                                child: const Text(
+                                  'Dismiss',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                        //if the user confirms the deletion
+                      }),
                 ],
               ),
             );
