@@ -141,7 +141,63 @@ class _PeopleScreenState extends State<PeopleScreen> {
                 padding: EdgeInsets.all(8.0),
               ),
             ),
-            direction: DismissDirection.horizontal,
+            direction: DismissDirection.endToStart,
+            confirmDismiss: (DismissDirection dir) async {
+              //confirm the deletion return is Future<bool>
+              // return Future(() => true);
+              //we need to return the boolean that is wrapped inside a Future
+              //need to resolve the Future to get to the boolean
+              // use the await to get to the boolean
+              if (dir == DismissDirection.endToStart) {
+                return await showDialog<Future<bool>>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: const Text(
+                      'Delete Confirmation',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    content: const Text(
+                        'Are you sure that you want to delete this person?',
+                        style: TextStyle(
+                          color: Colors.white,
+                        )),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          //remove the AlertDialog from the screen
+                          //return the Future containing the true boolean
+                          Navigator.pop(context, Future(() => false));
+                        },
+                        child: const Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          //remove the AlertDialog from the screen
+                          //return the Future containing the true boolean
+                          Navigator.pop(context, Future(() => true));
+                        },
+                        child: const Text(
+                          'Dismiss',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                //the green
+                return Future(() => false);
+              }
+            },
             onDismissed: (direction) {
               print('delete person $index');
               print('delete person ${people[index].id}');
