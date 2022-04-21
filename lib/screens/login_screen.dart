@@ -72,8 +72,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(width: 16.0),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.purple,
-                          ),
+                              // primary: Colors.purple,
+                              ),
                           child: Text('Sign Up'),
                           // ******************************************************************************  Onpressed Function +++++++"Sign Up"+++++++++++++++++++++
                           onPressed: () {
@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               //form failed validation so exit
                               return;
                             }
-                            },
+                          },
                           // ******************************************************************************  Onpressed Function +++++++"Sign Up"+++++++++++++++++++++
                         ),
                       ],
@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
   InputDecoration _styleField(String label, String hint) {
     return InputDecoration(
       labelText: label, // label
-      labelStyle: TextStyle(color: Colors.black),
+      labelStyle: TextStyle(color: Colors.white),
       // hintText: hint, //placeholder
       border: OutlineInputBorder(),
     );
@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
       obscureText: false,
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
-      style: TextStyle(color: Colors.lightBlue, fontSize: 20),
+      style: TextStyle(color: Colors.white, fontSize: 23),
       validator: (String? value) {
         print('called validator in email');
         if (value == null || value.isEmpty) {
@@ -151,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
       obscureText: true,
       keyboardType: TextInputType.visiblePassword,
       textInputAction: TextInputAction.next,
-      style: TextStyle(color: Colors.lightBlue, fontSize: 20),
+      style: TextStyle(color: Colors.white, fontSize: 23),
       validator: (String? value) {
         if (value == null || value.isEmpty || value.length < 5) {
           return 'Please enter something';

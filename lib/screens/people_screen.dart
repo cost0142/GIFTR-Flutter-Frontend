@@ -71,15 +71,22 @@ class _PeopleScreenState extends State<PeopleScreen> {
             child: ListTile(
               //different background colors for birthdays that are past
               tileColor: today.month > people[index].birthDate.month
-                  ? Colors.black12
-                  : Colors.white,
+                  ? Color.fromARGB(77, 68, 68, 68)
+                  : today.month == people[index].birthDate.month &&
+                          today.day > people[index].birthDate.day
+                      ? Colors.white30
+                      : today.month == people[index].birthDate.month &&
+                              today.day == people[index].birthDate.day
+                          ? Color.fromARGB(255, 77, 119, 177)
+                          : Color.fromARGB(255, 29, 93, 149),
               title: Text(people[index].fullName),
               subtitle: Text(DateFormat.MMMd().format(people[index].birthDate)),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.edit, color: Colors.grey),
+                    icon: Icon(Icons.edit,
+                        color: Color.fromARGB(255, 232, 232, 232)),
                     onPressed: () {
                       print('edit person $index');
                       print('go to the add_person_screen');
