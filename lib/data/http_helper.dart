@@ -63,11 +63,10 @@ class HttpHelper {
     headers.update('Authorization', (value) => 'Bearer $token');
   }
 
-  //update token
-  void updateToken(token) async {
+  void updateToken(_token) async {
     preferences = preferences ?? await SharedPreferences.getInstance();
-    token = token;
-    await preferences.setString('token', token);
+    token = _token;
+    await preferences.setString('token', _token);
     headers['Authorization'] = 'Bearer $token';
   }
 
@@ -116,7 +115,6 @@ class HttpHelper {
     Map<String, dynamic> resp = jsonDecode(response.body);
     preferences = preferences ?? await SharedPreferences.getInstance();
 
-    print(resp);
     headers["Authorization"] = 'Bearer ${resp['data']['token']}';
 
     if (resp['data'] != null) {
@@ -130,15 +128,19 @@ class HttpHelper {
   }
 
   //get user
-  Future<Map> getUsers() async {
+  Future<String> getUsers() async {
     String endpoint = 'auth/users/me';
     Uri uri = Uri.http(domain, endpoint);
+
+    preferences = preferences ?? await SharedPreferences.getInstance();
+    String? token = await preferences.getString('token');
+    headers['Authorization'] = 'Bearer $token';
 
     http.Response response = await http.get(uri, headers: headers);
 
     Map<String, dynamic> resp = jsonDecode(response.body);
 
-    return resp;
+    return resp['data']['id'];
   }
 
   //get people
@@ -253,7 +255,6 @@ class HttpHelper {
         await makeRequest('post', uri, headers, formatRequest(body, 'gifts'));
 
     Map<String, dynamic> resp = jsonDecode(response.body);
-    print(resp);
     return "";
   }
 

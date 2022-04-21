@@ -23,19 +23,44 @@ class PeopleScreen extends StatefulWidget {
 class _PeopleScreenState extends State<PeopleScreen> {
   HttpHelper httpAPI = HttpHelper();
 
+  String? userData;
+
   @override
   void initState() {
     super.initState();
-    getPeople();
+    waitFor();
   }
 
   //state var list of people
   //real app will be using the API to get the data
   List<dynamic> people = [];
+  List<dynamic>? peopleData;
 
-  void getPeople() async {
-    List<dynamic> peopleData = await httpAPI.getPeople();
-    setState(() => {people = peopleData});
+  Future<List> getPeople() async {
+    peopleData = await httpAPI.getPeople();
+    print(peopleData);
+    return peopleData!;
+  }
+
+  Future<String> getUser() async {
+    userData = await httpAPI.getUsers();
+    return userData!;
+  }
+
+  void compareUser() {
+    setState(() => {
+          people = peopleData!
+              .where((person) =>
+                  person.owner == userData ||
+                  person.shareWith.contains(userData))
+              .toList()
+        });
+  }
+
+  void waitFor() async {
+    await getPeople();
+    await getUser();
+    compareUser();
   }
 
   DateTime today = DateTime.now();
