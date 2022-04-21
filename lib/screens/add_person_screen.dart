@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../data/http_helper.dart';
 
-enum Screen { LOGIN, PEOPLE, GIFTS, ADDGIFT, ADDPERSON }
+enum Screen { SIGNUP, LOGIN, PEOPLE, GIFTS, ADDGIFT, ADDPERSON }
 
 HttpHelper httpAPI = HttpHelper();
 
@@ -80,10 +80,11 @@ class _AddPersonScreenState extends State<AddPersonScreen> {
                         _formKey.currentState!.save();
                         if (widget.currentPersonName.isEmpty) {
                           //add person
-                        await httpAPI.addPerson (person['name'], person['dob']);
+                          await httpAPI.addPerson(
+                              person['name'], person['dob']);
                         } else {
                           //edit person
-                          print(person['name']);  
+                          print(person['name']);
                           print(person['dob']);
                           await httpAPI.editPerson(widget.currentPerson,
                               person['name'], person['dob']);
